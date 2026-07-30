@@ -1,99 +1,149 @@
-# 🚀 Maximum Sum Subarray - Kadane's Algorithm
+# 🚀 Maximum Subarray Sum - Kadane's Algorithm
 
 ![Algorithm](https://img.shields.io/badge/Algorithm-Kadane's%20Algorithm-blue)
 ![Language](https://img.shields.io/badge/Language-C%2B%2B-orange)
-![Time](https://img.shields.io/badge/Time%20Complexity-O(n)-green)
-![Space](https://img.shields.io/badge/Space%20Complexity-O(1)-green)
+![Time Complexity](https://img.shields.io/badge/Time-O(n)-green)
+![Space Complexity](https://img.shields.io/badge/Space-O(1)-green)
 
 ---
 
 # 📌 Problem Statement
 
-Given an integer array, find the **contiguous subarray** that has the largest sum.
+Given an integer array `nums`, find the **contiguous subarray** that has the largest sum.
 
-Return the actual subarray elements.
+Return the maximum possible sum.
 
 ---
 
-## Example
+# Example
 
-### Input
+## Input
 
 ```cpp
-arr = {-2,1,-3,4,-1,2,1,-5,4}
+nums = [-2,1,-3,4,-1,2,1,-5,4]
 ```
 
-### Output
+## Output
 
-```cpp
+```text
+6
+```
+
+## Explanation
+
+The subarray:
+
+```
 [4,-1,2,1]
 ```
 
-### Explanation
+has the maximum sum.
 
-The sum of this subarray is:
+Calculation:
 
 ```
 4 + (-1) + 2 + 1 = 6
 ```
 
-No other contiguous subarray gives a larger sum.
-
----
-
-# 💡 Idea Behind Kadane's Algorithm
-
-The main idea:
-
-> A negative running sum can never help us create a maximum sum in the future, so we discard it.
-
-We maintain:
+Therefore:
 
 ```
-sum  → Current subarray sum
-
-maxi → Maximum sum found so far
-
-start → Starting index of current subarray
-
-ansStart → Starting index of best subarray
-
-ansEnd → Ending index of best subarray
+Maximum Subarray Sum = 6
 ```
 
 ---
 
-# 🧠 Visualization
+# 💡 Approach - Kadane's Algorithm
+
+The idea is simple:
+
+At every index, we decide:
+
+1. Continue the previous subarray.
+2. Start a new subarray from the current element.
+
+If the current sum becomes negative, we discard it because a negative sum will reduce the future answer.
+
+---
+
+# 🔑 Variables Used
+
+```cpp
+int maxi;
+```
+
+Stores the maximum sum found so far.
+
+---
+
+```cpp
+int sum;
+```
+
+Stores the current running sum.
+
+---
+
+# 🧠 Algorithm Steps
+
+```
+1. Initialize:
+
+   sum = 0
+   maxi = INT_MIN
+
+
+2. Traverse the array.
+
+
+3. Add current element to sum.
+
+
+4. Update maximum:
+
+   maxi = max(maxi, sum)
+
+
+5. If sum becomes negative:
+
+   Reset sum = 0
+
+
+6. Return maxi.
+```
+
+---
+
+# 🔥 Visualization
 
 Example:
 
 ```
-arr = {-2,1,-3,4,-1,2,1,-5,4}
+nums = [-2,1,-3,4,-1,2,1,-5,4]
 ```
 
-Array:
+Initial:
 
 ```
-Index:    0    1    2    3    4    5    6    7    8
-
-Array:   -2    1   -3    4   -1    2    1   -5    4
+sum = 0
+maxi = -∞
 ```
 
 ---
 
-# 🔥 Dry Run
-
 ## Step 1
 
-Element:
+Current element:
 
 ```
 -2
 ```
 
-Current sum:
+Add:
 
 ```
+sum = 0 + (-2)
+
 sum = -2
 ```
 
@@ -102,23 +152,30 @@ Diagram:
 ```
 [-2]  1  -3  4  -1  2  1  -5  4
  ↑
-
-Current Subarray
+Current
 ```
 
-Since sum is negative:
+Update:
 
 ```
-Reset sum = 0
+maxi = -2
 ```
 
-Reason:
+Since:
 
-A negative value will decrease future answers.
+```
+sum < 0
+```
+
+Reset:
+
+```
+sum = 0
+```
 
 ---
 
-# Step 2
+## Step 2
 
 Element:
 
@@ -126,7 +183,7 @@ Element:
 1
 ```
 
-Start new subarray:
+Add:
 
 ```
 sum = 1
@@ -136,12 +193,9 @@ Diagram:
 
 ```
 -2  [1]  -3  4  -1  2  1  -5  4
-     ↑
-
-Current Subarray
 ```
 
-Maximum:
+Update:
 
 ```
 maxi = 1
@@ -149,7 +203,7 @@ maxi = 1
 
 ---
 
-# Step 3
+## Step 3
 
 Element:
 
@@ -165,13 +219,7 @@ sum = 1 + (-3)
 sum = -2
 ```
 
-Diagram:
-
-```
--2  [1 -3]  4  -1  2  1  -5  4
-```
-
-Negative sum:
+Negative:
 
 ```
 Reset sum = 0
@@ -179,7 +227,7 @@ Reset sum = 0
 
 ---
 
-# Step 4
+## Step 4
 
 Element:
 
@@ -187,7 +235,7 @@ Element:
 4
 ```
 
-New start:
+Add:
 
 ```
 sum = 4
@@ -196,8 +244,7 @@ sum = 4
 Diagram:
 
 ```
--2  1  -3  [4]  -1  2  1  -5  4
-             ↑
+-2 1 -3 [4] -1 2 1 -5 4
 ```
 
 Update:
@@ -208,7 +255,7 @@ maxi = 4
 
 ---
 
-# Step 5
+## Step 5
 
 Element:
 
@@ -216,21 +263,11 @@ Element:
 -1
 ```
 
-Add:
+Sum:
 
 ```
-sum = 4 + (-1)
-
-sum = 3
+4 + (-1) = 3
 ```
-
-Diagram:
-
-```
--2  1  -3  [4 -1]  2  1  -5  4
-```
-
-Maximum remains:
 
 ```
 maxi = 4
@@ -238,7 +275,7 @@ maxi = 4
 
 ---
 
-# Step 6
+## Step 6
 
 Element:
 
@@ -246,18 +283,10 @@ Element:
 2
 ```
 
-Add:
+Sum:
 
 ```
-sum = 3 + 2
-
-sum = 5
-```
-
-Diagram:
-
-```
--2  1  -3  [4 -1 2]  1  -5  4
+3 + 2 = 5
 ```
 
 Update:
@@ -268,7 +297,7 @@ maxi = 5
 
 ---
 
-# Step 7
+## Step 7
 
 Element:
 
@@ -276,36 +305,27 @@ Element:
 1
 ```
 
-Add:
+Sum:
 
 ```
-sum = 5 + 1
-
-sum = 6
+5 + 1 = 6
 ```
 
-Diagram:
-
-```
--2  1  -3  [4 -1 2 1]  -5  4
-```
-
-New maximum:
+Update:
 
 ```
 maxi = 6
 ```
 
-Store:
+Current subarray:
 
 ```
-ansStart = 3
-ansEnd = 6
+[4,-1,2,1]
 ```
 
 ---
 
-# Step 8
+## Step 8
 
 Element:
 
@@ -319,15 +339,11 @@ Sum:
 6 - 5 = 1
 ```
 
-Still positive, continue.
-
-```
--2 1 -3 [4 -1 2 1 -5] 4
-```
+No update.
 
 ---
 
-# Step 9
+## Step 9
 
 Element:
 
@@ -341,72 +357,56 @@ Sum:
 1 + 4 = 5
 ```
 
-No update because:
+Still:
 
 ```
-5 < 6
+maxi = 6
 ```
 
 ---
 
 # Final Answer
 
-Stored indexes:
+Maximum sum:
 
 ```
-ansStart = 3
-ansEnd = 6
+6
 ```
 
-Subarray:
+From subarray:
 
 ```
-Index:
-
-0   1   2    3    4    5    6   7   8
-
--2  1  -3   [4] [-1] [2] [1] -5  4
-```
-
-Result:
-
-```cpp
 [4,-1,2,1]
 ```
 
 ---
 
-# 🔍 Why Does It Work?
-
-Suppose:
+# 📊 Algorithm Visualization
 
 ```
-[-5, 4]
+                 Kadane's Algorithm
+
+
+        Add Current Element
+                 |
+                 ↓
+        Calculate Running Sum
+                 |
+                 ↓
+        Is sum > maxi ?
+              /      \
+            Yes       No
+             |         |
+             ↓         |
+       Update maxi     |
+                       |
+                 Is sum < 0 ?
+                       |
+                  Yes  |
+                   |
+                   ↓
+              Reset sum = 0
 ```
-
-Sum:
-
-```
--5 + 4 = -1
-```
-
-Keeping `-5` is harmful.
-
-Better:
-
-```
-[4]
-```
-
-Therefore:
-
-```
-If current sum < 0
-
-Discard it
-```
-
-A negative prefix can never contribute to a future maximum.
 
 ---
 
@@ -415,31 +415,21 @@ A negative prefix can never contribute to a future maximum.
 ```cpp
 class Solution {
 public:
-    vector<int> findSubarray(vector<int>& arr) {
 
-        long long sum = 0;
-        long long maxi = INT_MIN;
+    int maxSubArray(vector<int>& nums) {
 
-        int start = 0;
-        int ansStart = 0;
-        int ansEnd = 0;
+        int maxi = INT_MIN;
+        int sum = 0;
 
 
-        for(int i = 0; i < arr.size(); i++) {
+        for(int i = 0; i < nums.size(); i++) {
 
-            if(sum == 0)
-                start = i;
-
-
-            sum += arr[i];
+            sum = sum + nums[i];
 
 
             if(sum > maxi) {
 
                 maxi = sum;
-
-                ansStart = start;
-                ansEnd = i;
 
             }
 
@@ -452,28 +442,18 @@ public:
         }
 
 
-        vector<int> ans;
-
-
-        for(int i = ansStart; i <= ansEnd; i++) {
-
-            ans.push_back(arr[i]);
-
-        }
-
-
-        return ans;
+        return maxi;
     }
 };
 ```
 
 ---
 
-# 📊 Complexity Analysis
+# ⏱️ Complexity Analysis
 
 ## Time Complexity
 
-We traverse the array only once.
+The array is traversed once.
 
 ```
 O(n)
@@ -483,7 +463,7 @@ O(n)
 
 ## Space Complexity
 
-Only variables are used.
+Only two variables are used.
 
 ```
 O(1)
@@ -491,52 +471,65 @@ O(1)
 
 ---
 
-# 🏆 Key Takeaways
+# ❓ Why Reset Sum When It Becomes Negative?
 
-✅ Uses Kadane's Algorithm
+Example:
 
-✅ Finds maximum sum contiguous subarray
+```
+[-5, 4]
+```
 
-✅ Tracks starting and ending indexes
+Current sum:
 
-✅ Removes negative contribution automatically
+```
+-5
+```
 
-✅ Runs in linear time
+Adding it with future numbers:
+
+```
+-5 + 4 = -1
+```
+
+is worse than starting from:
+
+```
+4
+```
+
+Therefore:
+
+```
+Negative sum is useless.
+Discard it.
+```
 
 ---
 
-# Algorithm Summary
+# ⭐ Key Takeaways
+
+✅ Uses Kadane's Algorithm
+
+✅ Finds maximum contiguous subarray sum
+
+✅ One pass solution
+
+✅ No extra memory required
+
+✅ Optimal O(n) approach
+
+---
+
+# 🎯 Pattern To Remember
 
 ```
-Start
-  |
-  ↓
-Add current element
-  |
-  ↓
-Is sum maximum?
-  |
-  ├── Yes → Store answer indexes
-  |
-  ↓
-Is sum negative?
-  |
-  ├── Yes → Reset sum
-  |
-  ↓
-Continue until array ends
+Keep adding elements.
+
+If current sum is maximum:
+    update answer.
+
+If current sum becomes negative:
+    restart from zero.
 ```
 
-## 🚀 Result
-
-```
-Maximum Sum Subarray
-
-[-2,1,-3,4,-1,2,1,-5,4]
-
-        ↓
-
-[4,-1,2,1]
-
-Sum = 6
-```
+🚀 **Kadane's Algorithm converts a brute force O(n²) solution into an efficient O(n) solution.**
